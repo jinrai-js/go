@@ -7,7 +7,7 @@ import (
 
 func StrToJson(from string) any {
 	var result any
-	json.Unmarshal([]byte(from), result)
+	json.Unmarshal([]byte(from), &result)
 
 	return result
 }

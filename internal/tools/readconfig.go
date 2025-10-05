@@ -2,20 +2,23 @@ package tools
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
-	"strconv"
+	"path/filepath"
 )
 
 func ReadConfig(path string, config any) error {
-	fullPath := getBaseRoot(path)
+	fullPath := GetBaseRoot(path)
 
 	jsonFile, err := os.ReadFile(fullPath)
 	if err != nil {
 		return err
 	}
 
-	return json.Unmarshal(jsonFile, config)
+	json.Unmarshal(jsonFile, config)
+
+	return nil
 }
 
 var htmlCache = make(map[string]string)
@@ -25,7 +28,7 @@ func ReadHTML(path string) string {
 		return val
 	}
 
-	fullPath := getBaseRoot(path)
+	fullPath := GetBaseRoot(path)
 
 	fileContent, err := os.ReadFile(fullPath)
 	if err != nil {
@@ -37,6 +40,8 @@ func ReadHTML(path string) string {
 	return htmlCache[path]
 }
 
-func GetTemplate(id int) string {
-	return ReadHTML("templates/" + strconv.Itoa(id) + ".html")
+func GetTemplate(outDir string, id int) string {
+	path := filepath.Join(outDir, fmt.Sprintf("%d.html", id))
+
+	return ReadHTML(path)
 }

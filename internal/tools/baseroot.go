@@ -5,7 +5,12 @@ import (
 	"path/filepath"
 )
 
-func getBaseRoot(path string) string {
+func GetBaseRoot(path string) string {
+	absPath, err := filepath.Abs(path)
+	if err == nil {
+		return absPath
+	}
+
 	exl, _ := os.Executable()
 	exPath := filepath.Dir(exl)
 
