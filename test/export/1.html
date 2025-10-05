@@ -1,0 +1,16 @@
+<div class="p-3 border border-gray-200 border-solid rounded-lg flex flex-col gap-3 cursor-pointer hover:shadow-md shadow-primary" tabindex="0">
+  <div class="flex gap-3 items-center">
+    <img class="rounded-md" src="{{0#/Api/Catalog/GetCatalog@/[ITEM=0]/preview}}" width="64" height="64" alt="{{0#/Api/Catalog/GetCatalog@/[ITEM=0]/title}}" />
+    <div class="flex-grow">
+      <h2 class="max-w-[200px] md:max-w-[310px] my-0 font-semibold truncate">{{0#/Api/Catalog/GetCatalog@/[ITEM=0]/title}}</h2>
+      <a href="/products/{{0#/Api/Catalog/GetCatalog@/[ITEM=0]/url}}"><span class="text-black">Series</span></a>
+    </div>
+    <button type="button" class="ant-btn css-15i1pjt ant-btn-default ant-btn-color-default ant-btn-variant-outlined rounded-full w-10 p-0 py-2">
+      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="22" width="22" xmlns="http://www.w3.org/2000/svg" style="color: rgb(136, 136, 136)">
+        <path fill="none" d="M0 0h24v24H0z"></path>
+        <path d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"></path>
+      </svg>
+    </button>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+</div>
