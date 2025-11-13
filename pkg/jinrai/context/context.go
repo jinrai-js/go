@@ -81,7 +81,8 @@ func (context Context) ExecuteRequests(host string, requests Requests, rewrite *
 			requestPath = (*rewrite)(requestPath)
 		}
 
-		jsonBody := context.initProps(request.Input)
+		input := clearInput(request.Input)
+		jsonBody := context.initProps(input)
 		result, _ := tools.Post(host+requestPath, jsonBody)
 		key := strconv.Itoa(index) + "#" + request.URL
 		context.Output.Data[key] = result
@@ -92,6 +93,13 @@ func (context Context) ExecuteRequests(host string, requests Requests, rewrite *
 			Input: tools.StrToJson(jsonBody),
 		})
 	}
+}
+
+func clearInput(input string) string {
+	input = strings.ReplaceAll(input, "\\", "")
+	input = strings.ReplaceAll(input, "\\", "")
+
+	return input
 }
 
 func (context Context) initProps(input string) string {
@@ -117,7 +125,11 @@ func (context Context) getProps(jv JinraiValue) string {
 	switch jv.Type {
 	case "searchString":
 		return context.getSearch(jv.Key, jv.Default)
-	case "params":
+	case "searchArray":
+		log.Fatal("Не знаю как обработать searchArray")
+		return ""
+
+	case "paramsIndex": //
 		return context.getParams(jv.Key, jv.Default)
 	case "request":
 		return context.getRequestValue(jv.Key, jv.Default)

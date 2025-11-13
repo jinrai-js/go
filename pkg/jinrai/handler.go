@@ -27,6 +27,7 @@ func (c Static) Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	html, head := c.Generate(r.URL, route)
+
 	w.Write(c.Config.RenderIndex(html, head))
 }
 

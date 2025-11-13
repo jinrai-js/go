@@ -1,6 +1,7 @@
 package jinrai
 
 import (
+	"encoding/json"
 	"net/url"
 
 	"github.com/jinrai-js/go/pkg/jinrai/context"
@@ -13,5 +14,7 @@ func (c Static) Generate(url *url.URL, route *jsonConfig.Route) (string, string)
 	context.ExecuteRequests(c.Api, route.Requests, c.Rewrite)
 	html := context.GetHTML(route.Content, []string{})
 
-	return html, "Export"
+	export, _ := json.Marshal(context.Output.Export)
+
+	return html, string(export)
 }

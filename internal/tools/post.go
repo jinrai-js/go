@@ -10,9 +10,9 @@ import (
 var cache = make(map[string]any)
 
 func Post(url string, jsonBody string) (any, bool) {
-	if val, ok := cache[url+"|"+jsonBody]; ok {
-		return val, true
-	}
+	// if val, ok := cache[url+"|"+jsonBody]; ok {
+	// 	return val, true
+	// }
 	fmt.Print(">> " + url)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(jsonBody)))

@@ -14,6 +14,7 @@ type Static struct {
 	components map[string]func(props any) string
 	jsonConfig.Config
 	Rewrite *func(string) string
+	Debug   bool
 }
 
 func New(templates, api, meta string, rewrite *func(string) string) (Static, error) {
@@ -29,6 +30,7 @@ func New(templates, api, meta string, rewrite *func(string) string) (Static, err
 		make(map[string]func(props any) string),
 		jconfig,
 		rewrite,
+		false,
 	}
 
 	return config, nil
