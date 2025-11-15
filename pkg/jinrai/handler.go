@@ -13,7 +13,7 @@ func (c Static) Handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 
-	c.Log("url: ", r.URL.Path)
+	c.Log("html url: ", r.URL.Path)
 
 	var route = c.Config.FindTemplateAndRender(r.URL)
 	if route == nil {

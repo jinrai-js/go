@@ -12,8 +12,9 @@
         "-a",
         "-v",
         "-dist", "test/dist",
-        "-port", "3044"
-
+        "-port", "3044",
+        "-proxy", "/Api=http://localhost:5005,/images=http://localhost:9066",
+        "-caching", "/Api"
       ]
     }
   ]

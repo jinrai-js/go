@@ -2,6 +2,7 @@ package context
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/url"
 	"regexp"
@@ -69,7 +70,7 @@ func New(url *url.URL, outDir string) Context {
 	}
 }
 
-func (context Context) ExecuteRequests(host string, requests Requests, rewrite *func(string) string) {
+func (context Context) ExecuteRequests(proxy *map[string]string, requests Requests, rewrite *func(string) string) {
 	for index, request := range requests {
 		if request.Method != "POST" {
 			log.Println("Пропускаю метод", request.Method)
@@ -83,6 +84,12 @@ func (context Context) ExecuteRequests(host string, requests Requests, rewrite *
 
 		input := clearInput(request.Input)
 		jsonBody := context.initProps(input)
+		host, err := getHost(requestPath, proxy)
+		if err != nil {
+			log.Println("host is not defined", requestPath)
+			continue
+		}
+
 		result, _ := tools.Post(host+requestPath, jsonBody)
 		key := strconv.Itoa(index) + "#" + request.URL
 		context.Output.Data[key] = result
@@ -93,6 +100,17 @@ func (context Context) ExecuteRequests(host string, requests Requests, rewrite *
 			Input: tools.StrToJson(jsonBody),
 		})
 	}
+}
+
+func getHost(requestPath string, proxy *map[string]string) (string, error) {
+
+	for prefix, host := range *proxy {
+		if strings.HasPrefix(requestPath, prefix) {
+			return host, nil
+		}
+	}
+
+	return "", errors.New("not prefix in proxy")
 }
 
 func clearInput(input string) string {
